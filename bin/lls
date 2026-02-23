@@ -102,8 +102,16 @@ def rotate_log(path: Path, keep: int = 5) -> None:
         # Never crash launcher because log rotation failed
         return
 
+def resolve_mmproj(model_path: Path) -> Optional[Path]:
+    """If `<model>.gguf` has a sibling `<model>-mmproj.gguf`, return it."""
+    if model_path.suffix.lower() != ".gguf":
+        return None
+    mmproj = model_path.with_name(model_path.stem + "-mmproj.gguf")
+    return mmproj if mmproj.exists() else None
+
+
 def build_llama_cmd(llama_bin: Path, model_path: Path, params: dict) -> list:
-    return [
+    cmd = [
         str(llama_bin),
         "--host", str(params["host"]),
         "--port", str(params["port"]),
@@ -114,6 +122,12 @@ def build_llama_cmd(llama_bin: Path, model_path: Path, params: dict) -> list:
         "--ubatch-size", str(params["ubatch"]),
         "--n-gpu-layers", str(params["gpu_layers"]),
     ]
+
+    mmproj = resolve_mmproj(model_path)
+    if mmproj:
+        cmd += ["--mmproj", str(mmproj)]
+
+    return cmd
 
 
 def format_cmd(cmd: list) -> str:
