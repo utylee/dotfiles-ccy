@@ -18,10 +18,14 @@ add_newline = false
 # [G2](bold fg:#2c809e)\
 # [G2](bold fg:#39706b)\
 # [G2](bold fg:#47a198)\
+#[CACHY](bold fg:#679e8a)\
+# [CACHY](bold fg:#9350c7)\
+# [CACHY](bold fg:#c45186)\
+# [CACHY](bold fg:#d66097)\
 
 format = """
 $python\
-[G2](bold fg:#679e8a)\
+[CACHY](bold fg:#e87272)\
 $username\
 $directory\
 $git_branch$git_commit\
@@ -32,10 +36,13 @@ $character\
 # success_symbol = "[❯](bold #2c809e)"
 # success_symbol = "[❯](bold #39706b)"
 # success_symbol = "[❯](bold #47a198)"
-success_symbol = "[❯](bold #679e8a)"
+# success_symbol = "[❯](bold #679e8a)"
+# success_symbol = "[❯](bold #9350c7)"
+# success_symbol = "[❯](bold #c45186)"
+success_symbol = "[❯](bold #e87272)"
 #error_symbol = "[✗](fg:1)"
 #error_symbol = "[❯](fg:1)"
-error_symbol = "[❯](fg:9)"
+error_symbol = "[❯](fg:#7c33bd)"
 #vicmd_symbol = "[N](fg:15 bold)"
 #vicmd_symbol = "[⚡](fg:15 bold)"
 #vicmd_symbol = "[\uE0D2](fg:5)"
