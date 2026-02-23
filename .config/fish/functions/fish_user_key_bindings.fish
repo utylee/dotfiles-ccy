@@ -1,7 +1,9 @@
 function fish_user_key_bindings
-	fzf_key_bindings
+	# fzf_key_bindings
+	fzf --fish | source
 	bind \cfa fzf-file-utylee-widget		# 원래대로 파일명을 검색하는 명령어입니다 (현재디렉토리부터)
 	bind \cff fzf-dir-utylee-widget		# 아래 f 와 연동하여 g로 지정했지만 alt-c 의 단축키를 변경한 거
+	bind \cla fzf-lls-model-widget	# llama-server 용 wsl2 models 검색 fzf
 	bind \cw fzf_project_widget		# 'w'orkspace 에서 w를 쓰기로 합니다
 	bind \cs fzf-history-widget		# command history 단축키를 덮어씌웁니다
 	bind \cgg _fzf_search_git_log    #
@@ -19,6 +21,7 @@ function fish_user_key_bindings
     if bind -M insert > /dev/null 2>&1
 		bind -M insert \cfa	fzf-file-utylee-widget
 		bind -M insert \cff fzf-dir-utylee-widget       #
+		bind -M insert \cla fzf-lls-model-widget
 		bind -M insert \cw	fzf_project_widget
 		bind -M insert \cs	fzf-history-widget		
 		bind -M insert \cgg _fzf_search_git_log
