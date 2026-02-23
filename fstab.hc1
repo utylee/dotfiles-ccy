@@ -1,0 +1,18 @@
+#UUID=e139ce78-9841-40fe-8823-96a304a09859 / ext4 errors=remount-ro,noatime 0 1
+LABEL=boot /media/boot vfat defaults 0 1
+
+# ssd root
+#/dev/sda1 / ext4 defaults,noatime 0 1
+#/dev/sda2 /media/data ext4 defaults 0 2
+UUID=9bb92fa9-ef8f-4de1-9e14-cde81d8ca3b5 / ext4 defaults,noatime 0 1
+UUID=1e61b894-3f05-46d4-9b2e-6940ce80953b /media/data ext4 defaults 0 2
+
+#UUID=E76BB210-7547-B949-B2C7-4172257A11E8  /home/utylee/media/8001  ext4  defaults,noatime,nofail,x-systemd.automount,x-systemd.device-timeout=60  0  2
+
+# HDD
+UUID=e099d6c5-cd17-4bec-80dd-aac4542cb5c7 /home/utylee/media/4001 ext4 defaults,nofail,x-systemd.device-timeout=18 0 0
+UUID=592a919c-7874-4ea1-90d4-e47aa26b0d60 /home/utylee/media/8001 ext4 defaults,nofail,x-systemd.device-timeout=18 0 0
+
+
+
+

@@ -1,0 +1,2 @@
+cmake -H. -BRelease -DCMAKE_EXE_LINKER_FLAGS="-latomic" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/clang+llvm-7.0.1-armv7a-linux-gnueabihf/
+

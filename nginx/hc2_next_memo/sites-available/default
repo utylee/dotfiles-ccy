@@ -1,0 +1,89 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+upstream api {
+	# server unix:/tmp/api_1.sock fail_timeout=0;
+	## server unix:/tmp/api_2.sock fail_timeout=0;
+	## server unix:/tmp/api_3.sock fail_timeout=0;
+	## server unix:/tmp/api_4.sock fail_timeout=0;
+	server localhost:8080 fail_timeout=0;
+	#server unix:/tmp/wowinfo_1.sock fail_timeout=0;
+}
+server {
+	#server_name utylee.duckdns.org;
+	#listen 9999;
+	# server_name 192.168.1.203;
+	#server_name 192.168.1.203:3000;
+	server_name localhost;
+	#listen 3000;
+	location /api/ {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $http_host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		# websocket을 끊는 제한이 기본으로 60이라고 합니다. 넉넉하게 30분으로 늘려줬습니다
+		proxy_read_timeout 1800;
+
+		proxy_pass http://api;
+		#alias /home/odroid/temp.html;
+	}
+
+	location / {
+		# proxy_http_version 1.1;
+		# proxy_set_header Upgrade $http_upgrade;
+		# proxy_set_header Connection "upgrade";
+		# proxy_set_header Host $http_host;
+		# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		# proxy_redirect off;
+		# proxy_buffering off;
+		# proxy_read_timeout 1800;
+
+		# proxy_pass http://127.0.0.1:3000;
+		root /home/utylee/.virtualenvs/react/src/next-memo/out;
+	}
+}
+
+#upstream danawow {
+#	server unix:/tmp/wowinfo_1.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_2.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_3.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_4.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_5.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_6.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_7.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_8.sock fail_timeout=0;
+#
+#	keepalive 100;
+#	#server 127.0.0.1:8081 fail_timeout=0;
+#	#server 127.0.0.1:8082 fail_timeout=0;
+#	#server 127.0.0.1:8083 fail_timeout=0;
+#	#server 127.0.0.1:8084 fail_timeout=0;
+#}
+
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
+
+

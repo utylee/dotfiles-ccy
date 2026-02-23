@@ -1,0 +1,4 @@
+[program:mpv]
+command=mpv http://utylee.duckdns.org:8000 
+autostart=true
+#autorestart=true

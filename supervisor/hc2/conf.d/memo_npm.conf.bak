@@ -1,0 +1,18 @@
+[program:memo_npm]
+#directory=/home/utylee/.virtualenvs/react/src/next-memo/
+#environment=HOME="/home/utylee",USER="utylee",PATH="/usr/local/node-v16.13.0-linux-armv7l/bin"
+environment=PATH="/usr/local/node-v16.13.0-linux-armv7l/bin"
+#command=npm run start
+command=npm --prefix /home/utylee/.virtualenvs/react/src/next-memo run start
+#command=npm run start
+user=utylee
+autorestart=false
+#autostart=true
+#environment=HOME="/home/utylee",USER="utylee"
+#directory=/usr/local/node-v16.13.0-linux-armv7l/bin/
+#command=npm --prefix /home/utylee/.virtualenvs/react/src/next-memo run start
+#autorestart=true
+#chown=utyle
+#numprocs = 1
+#numprocs_start = 1
+#command=npm run start

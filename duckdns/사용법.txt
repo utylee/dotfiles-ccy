@@ -1,0 +1,5 @@
+crontab -e 로 추가
+#한시간마다 실행할경우
+
+#0 * * * * /home/utylee/temp/duckdns/duckdns.sh > /dev/null 2>&1
+0 * * * * /home/utylee/temp/duckdns/duckdns_new.sh > /dev/null 2>&1

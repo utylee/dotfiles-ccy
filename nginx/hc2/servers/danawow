@@ -1,0 +1,32 @@
+# location ~ /memo/? {
+# location ~ ^/memo/(.*)$ {
+location /danawow/ {
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	# proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+	# proxy_cache_bypass $http_upgrade;
+
+	# memo를 assetPrefix로 사용하고 memo/index.html를 사용하고 
+	# 불필요한 원래 index.html를 제거할시 next export시 변경되는 index.html를
+	# 명시해줘야합니다
+	# index memo.html;
+	# alias /home/utylee/.virtualenvs/react/src/next-memo/out;
+	proxy_pass http://danawow/;
+
+	# root을 사용할 경우, 위의로케이션이 마지막에 추가되게됩니다.
+	# root 단어의 의미를 생각해봤을 때, 이해가 가는 부분입니다
+	# root /home/utylee/.virtualenvs/react/src/next-memo/out/;
+}
+#사실 next export 를 통해 static 서빙을 하면 굳이 필요없습니다
+# npm run start로 서빙할 때 서버별로 분리하기 위한 설정입니다
+# 혹은 start로 서빙할 때 static은 nginx의 장점을 이용하고자 할때나
+location /danawow/static {
+	# autoindex on;
+	alias /home/utylee/.virtualenvs/blog/src/aiohttp/wowinfo/static;
+}

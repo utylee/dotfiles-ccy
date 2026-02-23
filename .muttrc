@@ -1,0 +1,38 @@
+set realname = "Tae yoon, Lee"
+set from = "utylee@gmail.com"
+set use_from = yes
+set envelope_from = yes
+
+#set smtp_url = "smtps://utylee@gmail.com@smtp.gmail.com:465/"
+set smtp_pass = "sksmsqnwk11"
+set imap_user = "utylee@gmail.com"
+set imap_pass = "sksmsqnwk11"
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set ssl_force_tls = yes
+
+# G to get mail
+bind index G imap-fetch-mail
+set editor = "vim"
+set charset = "utf-8"
+set record = ''
+
+#set imap_user = "utylee@gmail.com"
+#set imap_pass = "sksmsqnwk11"
+set smtp_url = "smtp://utylee@smtp.gmail.com:587/"
+#set smtp_pass = "sksmsqnwk11"
+#set from = "utylee@gmail.com"
+#set realname = "Tae yoon Lee"
+#set folder = "imaps://imap.gmail.com:993"
+#set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+set certificate_file = ~/.mutt/certificates
+set move = no
+#set smtp_authenticators = ‘gssapi:login’
+#set sort = reverse-date-received
+set sort=threads
+set sort_browser=date
+set sort_aux=reverse-last-date-received
+

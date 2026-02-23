@@ -1,0 +1,180 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+## 변경시작
+# proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=STATIC:10m inactive=7d use_temp_path=off;
+
+# upstream api_memo {
+# 	# server localhost:8080 fail_timeout=0;
+
+# 	server unix:/tmp/api_memo_1.sock fail_timeout=0;
+# 	# server unix:/tmp/api_2.sock fail_timeout=0;
+# 	# server unix:/tmp/api_3.sock fail_timeout=0;
+# 	# server unix:/tmp/api_4.sock fail_timeout=0;
+# }
+
+# upstream memo {
+# 	server 0.0.0.0:3000 fail_timeout=0;
+# }
+
+
+# upstream hydro {
+# 	# server 192.168.1.202:3000 fail_timeout=0;
+# 	server 0.0.0.0:3001 fail_timeout=0;
+# }
+# upstream api_hydro {
+# 	server unix:/temp/api_hydro_1.sock fail_timeout=0;
+# 	# server localhost:8080 fail_timeout=0;
+# }
+
+
+	# 뭔짓을 해도 memo의 public 폴더를 바라보게하는 게 안돼서 수동으로 넣어주기로 
+	#했습니다
+	location /memo/favicon.ico {
+	# location ~ ^/memo/(.*)$ {
+		# alias /home/utylee/.virtualenvs/react/src/next-memo/public/favicon.ico;
+		proxy_pass http://memo/favicon.ico;
+		# proxy_pass http://memo/$1;
+	}
+
+	# next12에서 나타난 버그라고 인식되고 있습니다. websocket
+	location /memo/_next/webpack-hmr {
+		proxy_pass http://memo/_next/webpack-hmr;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+	}
+
+	# location ~ /memo/? {
+	# location ~ ^/memo/(.*)$ {
+	location /memo {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+		# proxy_cache_bypass $http_upgrade;
+
+		# memo를 assetPrefix로 사용하고 memo/index.html를 사용하고 
+		# 불필요한 원래 index.html를 제거할시 next export시 변경되는 index.html를
+		# 명시해줘야합니다
+		# index memo.html;
+		# alias /home/utylee/.virtualenvs/react/src/next-memo/out;
+		proxy_pass http://memo;
+
+		# root을 사용할 경우, 위의로케이션이 마지막에 추가되게됩니다.
+		# root 단어의 의미를 생각해봤을 때, 이해가 가는 부분입니다
+		# root /home/utylee/.virtualenvs/react/src/next-memo/out/;
+	}
+	#사실 next export 를 통해 static 서빙을 하면 굳이 필요없습니다
+	# npm run start로 서빙할 때 서버별로 분리하기 위한 설정입니다
+	# 혹은 start로 서빙할 때 static은 nginx의 장점을 이용하고자 할때나
+	location /memo/_next/static/ {
+		# autoindex on;
+		# alias /home/utylee/.virtualenvs/react/src/next-memo/out/_next/static;
+		alias /home/utylee/.virtualenvs/react/src/next-memo/.next/static/;
+	}
+	location /memo/_next/ {
+		# autoindex on;
+		# alias /home/utylee/.virtualenvs/react/src/next-memo/out/_next/static;
+		alias /home/utylee/.virtualenvs/react/src/next-memo/.next/;
+	}
+
+	# # location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+	# location ~* \.(?:ico|css|gif|jpe?g|png)$ {
+	# 	expires 30d;
+	# 	add_header Vary Accept-Encoding;
+	# 	access_log off;
+	# }
+		# location /favicon.ico {
+		# 	# proxy_pass http://memo/favicon.ico;
+		# 	alias /home/utylee/.virtualenvs/react/src/next-memo/public/favicon.ico;
+		# }
+
+	location /memo/api/ {
+	# location /api/ {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $http_host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		proxy_pass http://api_memo;
+		#alias /home/odroid/temp.html;
+	}
+
+
+	# # # location /hydro/_next/static {
+	# # location /_next/static {
+	# # 	alias /home/utylee/.virtualenvs/react/src/next-hydro/.next/statica;
+	# # }
+
+	# location /hydro/_next/static {
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/.next/static;
+	# }
+
+	# # nextjs.config 상에서 assetPrefix과 함께 basePath를 사용해봤는데
+    # # 도저히 답이 안나와서 public을 차라리 명시적으로 사용하고 nginx가 서빙하는
+    # # 걸로 결론을 냈습니다	  
+	# location /hydro/public {
+	# 	# autoindex on;
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/public;
+	# }
+
+	# location /hydro/favicon.ico {
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/public/favicon.ico;
+	# }
+
+	# location /hydro {
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	# proxy_pass http://hydro/hydro;
+	# 	proxy_pass http://hydro;
+	# 	# index hydro.html;
+	# 	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+	# }
+
+	# location /hydro/api/ {
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	proxy_pass http://api_hydro;
+	# }
+
+# }
+
+
+

@@ -1,0 +1,86 @@
+* install fish-shell
+git clone https://github.com/fish-shell/fish-shell.git
+#cd fish-shell; mkdir build ; cd build ; cmake ..; make; sudo make install 
+cd fish-shell; mkdir build ; cd build ; cmake ..; cmake --build .;sudo cmake --install .
+	*if MACOS
+		mkdir build; cd build
+		cmake .. -G Xcode -DBUILD_DOCS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo
+		xcodebuild
+		xcodebuild -scheme install
+		잘 안됩니다. 빌드는 됐는데 debug 빌드로 나오고 찝찝합니다.그냥 brew install 합시다 
+echo /usr/local/bin/fish >>/etc/shells
+chsh -s /usr/local/bin/fish
+
+
+* install fisher
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+
+* install fisher pyenv plugin
+fisher install utylee/pyenv 
+	: 기존 pyenv가 scp 나 ssh-copy-id 등에서 문제를 일으켜서 코드를 직접 추가해줬습니다.
+ #fisher install daenney/pyenv
+
+* install z plugin
+## XXXX fisher install jethrokuan/z
+# set -U 부분을 if문에 넣어서 set -U 의 무한 증식 리스크를 없애보기로 합니다
+fisher install utylee/z
+
+* install ghq
+git clone https://github.com/x-motemen/ghq
+	* go install and build
+		.다운로드 후 /usr/local/ 에 넣고 bin폴더를 path를 걸어줍니다
+		.go 폴더를 숨김폴더로 변경합니다 
+			go env -w GOPATH="/home/odroid/.go"
+		.프로젝트 폴더내에서 go build를 하면 해당 바이너리를 go install을 하면 ~/go/bin 폴더에 설치
+			됩니다
+
+#* virtualfish 를 설치합니다. virtualenvwrapper가 되지 않아 fish용 대안입니다
+#(https://github.com/justinmayer/virtualfish)
+#pip install virtualfish
+#vf install
+#vf new myvirtualenv
+#vf activate
+#vf cd 
+
+* starship prompt
+sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+	* 이미 fish 상태라면 아래아래처럼 합니다
+	sh -c (curl -fsSL https://starship.rs/install.sh)
+
+* pyenv build dependencies 혹은 기본 설치해야할 것들
+sudo apt-get update; sudo apt-get install make build-essential \
+libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
+wget curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
+libpq-dev libcurl4-openssl-dev
+
+* nginx compile dependencies:
+apt-get install libperl-dev libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev libxml2-dev libxslt1-dev libgd-dev libgeoip-dev google-perftools libgoogle-perftools-dev 
+#아래 몇개 설치한 건 빼고 위에 축약본입니다
+#apt-get install make libperl-dev libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev libxml2-dev libxslt1-dev libgd-dev libgeoip-dev google-perftools libgoogle-perftools-dev gcc g++
+
+* nginx service 등록
+git clone https://github.com/Fleshgrinder/nginx-sysvinit-script.git
+sudo make install
+
+* npm 을 sudo에서 실행이 가능하게 하는 방법
+sudo EDITOR=vi visudo 실행후
+Defaults   secure_path=에 /usr/local/node-v16.13.0-linux-armv7l/bin 등의
+npm 폴더를 추가해줍니다
+
+
+* 참고: 
+.결국 아래를 포기하고 그냥 mpd와 vlc 혹은 웹재생을 선택하기로 했습니다.
+ owntone 뮤직서버 설치시 avahi-daemon을 같이 설치해야되는데, 
+와우 설치 다운로드 시 dns 접속 요청을 엄청하는데 mDNS 때문에
+이 서버가 네트워크 dns 부하를 다 받는 것 같다.
+따라서 설정을 변경해줘야 하는데 nsswitch.conf의 host를 
+hosts: files dns 로만 남겨두고 지워야하는 것 같다.
+물론 이와중에 한번 행 걸리긴 했다ㄷㄷㄷ
+
+.etc/avahi/avahi.conf에서 ipv6설정도 한번 꺼봤습니다
+.공유기의 lan설정의 고급설정에서 igmp snooping도 켜봤습니다.
+그 순간 역시나 변함없이 멈춤이 발생했습니다
+
+
+
+

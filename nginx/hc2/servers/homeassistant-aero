@@ -1,0 +1,97 @@
+# 현재 사용하지는 않습니다. homeassistant가 절대경로를 보게끔되어있어 의미가 없습니다
+# websocket이 연결이 안되고 먹통이 됩니다
+# location ^~ /aero {
+location /aero/ {
+	# location / {
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# proxy_set_header X-Forwarded-Proto $scheme;
+	# proxy_set_header X-Real-IP $remote_addr;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+
+	proxy_pass http://aero/;
+	# index hydro.html;
+	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+}
+
+# location ~ ^/(api|local|media|hacsfiles|auth|frontend_latest|static)/ {
+# 	 # include /etc/nginx/proxy.conf;
+# 	 # include /etc/nginx/resolver.conf;
+# 	 proxy_pass http://127.0.0.1:8123;
+# }
+
+
+# ex))  https://github.com/70p4z/ha-reverse-proxy-path
+# 이분의 노력으로 path를 적용되게끔 해봤으니 나는 이중 프록시 전달 때문인지
+# 아니면 업데이트 때 마다 계속 변해서 개발을 손놓은 것인지 모르겠으나 안돼서
+# 포기하고 그냥 하위 도메인을 사용하기로 했습니다.
+# http://utylee-ha.duckdns.org/
+# location /aero {
+#  # return 301 $scheme://$host/ha/;
+#  return 301 $scheme://$host/aero/;
+# }
+
+# location ~ /aero/(.*$) {
+#     gzip off;
+
+# 	# proxy_http_version 1.1;
+# 	# proxy_set_header Upgrade $http_upgrade;
+# 	# proxy_set_header Connection "upgrade";
+# 	# # proxy_set_header Host $http_host;
+# 	# proxy_set_header Host $host:8123;
+# 	# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+#     proxy_set_header Range $http_range;
+#     proxy_set_header If-Range $http_if_range;
+#     # auth_basic "Restricted";
+#     # auth_basic_user_file /config/nginx/.htpasswd;
+#     # include /config/nginx/proxy.conf;
+#     # include /config/nginx/resolver.conf;
+#     # set $upstream_app IP_TO_THE_REVERSE_PROXY_SCRIPT;
+#     # set $upstream_app 0.0.0.0;
+#     set $upstream_app 192.168.1.203;
+#     set $upstream_port 8124;
+#     set $upstream_proto http;
+#     proxy_pass $upstream_proto://$upstream_app:$upstream_port/$1$is_args$args;
+# }
+
+
+
+# location /aero/api {
+# 	proxy_http_version 1.1;
+# 	proxy_set_header Upgrade $http_upgrade;
+# 	proxy_set_header Connection "upgrade";
+# 	proxy_set_header Host $http_host;
+# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+# 	proxy_set_header X-Forwarded-Proto $scheme;
+# 	proxy_set_header X-Real-IP $remote_addr;
+# 	proxy_redirect off;
+# 	proxy_buffering off;
+# 	proxy_read_timeout 1800;
+
+# 	proxy_pass http://aero/api;
+# 	# index hydro.html;
+# 	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+# }
+
+# location /aero/auth {
+# 	proxy_http_version 1.1;
+# 	proxy_set_header Upgrade $http_upgrade;
+# 	proxy_set_header Connection "upgrade";
+# 	proxy_set_header Host $http_host;
+# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+# 	proxy_set_header X-Forwarded-Proto $scheme;
+# 	proxy_set_header X-Real-IP $remote_addr;
+# 	proxy_redirect off;
+# 	proxy_buffering off;
+# 	proxy_read_timeout 1800;
+
+# 	proxy_pass http://aero/auth;
+# 	# index hydro.html;
+# 	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+# }

@@ -1,0 +1,103 @@
+#set-option -g default-terminal screen-256color-italic
+
+# set-option -g default-terminal xterm-256color-italic
+# set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
+
+set-option -g default-terminal xterm-256color
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+#set-option -ga terminal-overrides ",tmux-256color-italic:Tc"
+set -g prefix C-a
+bind-key a send-prefix
+unbind-key C-b
+#unbind-key C-b
+#bind-key C-s send-prefix
+set -sg escape-time 0
+
+unbind Space
+
+set-option -g history-limit 5000
+bind-key _ resize-pane -D 2
+bind-key + resize-pane -U 2
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key h select-pane -L
+bind-key l select-pane -R
+
+bind '"' split-window -c '#{pane_current_path}'
+bind '%' split-window -h -c '#{pane_current_path}'
+bind v new-window -c "#{pane_current_path}"
+
+
+
+bind-key i command-prompt -p "join pane from:"  "join-pane -s '%%'"
+bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
+
+
+#set -g status-bg cyan
+#set -g status-bg colour61
+#set -g status-bg '#a33cab'
+#set -g status-bg '#6d207a'
+#set -g status-bg '#02594b'
+set -g status-bg '#035447'
+# set -g status-fg white
+set -g status-fg brightwhite
+#set -g status-fg '#93ccb2'
+#set-window-option -g window-status-current-bg red
+#set-window-option -g window-status-current-style bg=red
+#set-window-option -g window-status-current-style bg='#3c996f'
+#set-window-option -g window-status-current-style bg='#09ad92'
+set-window-option -g window-status-current-style bg='#059980'
+set-window-option -g mode-keys vi
+
+## 아래가 nested tmux vim navigate의 기본으로 되어 있더군요 언제바꾼지 모르겠는데 일단 안되길래
+##원래 vim-tmux-navigator 페이지에 나온대로 (https://github.com/christoomey/vim-tmux-navigator)
+##is_vim 값을 저대로 해봤습니다
+##is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim|ssh?)(diff)?$"'
+#is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|vim|ssh|mosh?)(diff)?$"'
+#bind -n C-M-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+#bind -n C-M-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+#bind -n C-M-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+#bind -n C-M-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+#bind -n C-M-u swap-pane -t 0 \; select-pane -t 0
+
+#
+# alt + num 으로 윈도우를 쉽게 선택하게 합니다
+# alt + num 은 바깥 tmux에서 쓰니 ctrl 을 함께 누르게끔 했는데 인식되지 않아 주석처리 합니다
+#bind -n C-M-0 select-window -t 0
+#bind -n C-M-1 select-window -t 1
+#bind -n C-M-2 select-window -t 2
+#bind -n C-M-3 select-window -t 3
+#bind -n C-M-4 select-window -t 4
+#bind -n C-M-5 select-window -t 5
+#bind -n C-M-6 select-window -t 6
+#bind -n C-M-7 select-window -t 7
+#bind -n C-M-8 select-window -t 8
+#bind -n C-M-9 select-window -t 9
+
+
+unbind -n C-M-j 
+
+#bind -n C-M-h select-pane -L
+#bind -n C-M-j select-pane -D
+#bind -n C-M-k select-pane -U
+#bind -n C-M-l select-pane -R
+
+
+#패널을 좌우로 이동 swap
+#bind-key -n C-S-Left swap-window -t -1
+#bind-key -n C-S-Right swap-window -t +1
+
+bind | split-window -h
+bind - split-window -v
+bind u swap-pane -t 0 \; select-pane -t 0
+bind r source-file ~/.tmux.conf
+#bind S-h swap-window -t -1
+#bind S-l swap-window -t +1
+bind < swap-window -t -1 -d
+bind > swap-window -t +1 -d
+
+bind j select-pane -D
+bind k select-pane -U
+bind h select-pane -L
+bind l select-pane -R

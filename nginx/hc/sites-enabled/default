@@ -1,0 +1,303 @@
+proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=STATIC:10m inactive=7d use_temp_path=off;
+
+#upstream hc1 {
+	#server 192.168.1.202:80 fail_timeout=0;
+#}
+
+upstream hc2 {
+	server 192.168.1.203:80 fail_timeout=0;
+}
+
+upstream wsl2 {
+	server 192.168.1.204:80 fail_timeout=0;
+}
+
+
+# homeassistant 용 하위 도메인을 마련했습니다
+server { 
+	server_name utylee-ha.duckdns.org;
+	# server_name _;
+	# server_name localhost;
+	# server_name 192.168.1.202;
+	listen 80;
+	# server_name 192.168.1.205;
+
+	error_page  404              /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#
+	error_page   500 502 503 504  /50x.html;
+	location = /50x.html {
+		root   html;
+	}
+
+	location / {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://hc2/memo;
+		# proxy_pass http://hc2/aero/;
+		proxy_pass http://192.168.1.203:8123/;
+		# proxy_pass http://192.168.1.204:8123/;
+
+		# proxy_pass http://hc1;
+	}
+
+}
+
+server {
+	server_name utylee.duckdns.org;
+	# server_name _;
+	# server_name localhost;
+	# server_name 192.168.1.202;
+	listen 80;
+	# server_name 192.168.1.205;
+
+	# error_log /var/log/error.log debug;
+
+	#charset koi8-r;
+	#한글을 표시해주는방법 같습니다
+	 # charset utf-8;
+
+	#access_log  logs/host.access.log  main;
+
+	location / {
+		# /usr/share/nginx/html 이 가리키는 위치입니다
+		# 현재 media/.../bookmark 를 링크해놓았습니다
+		root   html;
+
+		# 하위 파일을 자동으로 html로 리스팅해주는 방법인 것 같습니다
+		autoindex on;
+		#index  index.html index.htm;
+	}
+
+	error_page  404              /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#
+	error_page   500 502 503 504  /50x.html;
+	location = /50x.html {
+		root   html;
+	}
+	location /midea/ {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://hc1/hydro;
+		proxy_pass http://localhost:9007/;
+
+		# proxy_pass http://hc1;
+	}
+
+	location /aero {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_read_timeout 1800;
+
+		proxy_pass http://hc2/aero;
+		# proxy_pass http://192.168.1.203:8123/;
+
+		# proxy_pass http://hc1;
+	}
+	# location /memo/favicon.ico {
+	# 	proxy_pass http://hc2/memo/favicon.ico;
+	# }
+
+	location /mympd {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		# proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		proxy_pass http://wsl2/mympd;
+		# proxy_redirect / /mympd;
+	}
+
+	location /property {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		proxy_pass http://wsl2/property;
+		# proxy_pass http://hc2/property;
+	}
+
+	location /print {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://wsl2/print;
+		proxy_pass http://hc2/print;
+
+		# proxy_pass http://hc1;
+	}
+
+	location /hydro {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.202;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://hc1/hydro;
+		# proxy_pass http://localhost/hydro;
+		proxy_pass http://hc2/hydro;
+
+		# proxy_pass http://hc1;
+	}
+	# location /memo/favicon.ico {
+	# 	proxy_pass http://hc2/memo/favicon.ico;
+	# }
+
+	location /memo {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.203;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://192.168.1.203/;
+		proxy_pass http://hc2/memo;
+	}
+	# location /memo/_next/ {
+	# 	# 캐시 설정인데 동작을 하는지 안하는지 감이 없습니다
+	# 	proxy_cache STATIC;
+	# 	proxy_ignore_headers Cache-Control;
+	# 	proxy_cache_valid 60m;
+	# 	# 여기까지 캐시 설정
+
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	# proxy_set_header Host localhost;
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	# proxy_pass http://192.168.1.203/_next/;
+	# 	proxy_pass http://hc2/memo/_next/;
+	# }
+
+	# location /api/ {
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	# proxy_set_header Host localhost;
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	# proxy_pass http://192.168.1.203/api/;
+	# 	proxy_pass http://hc2/api/;
+	# }
+
+
+	location /danawow {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# proxy_set_header Host 192.168.1.203;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://192.168.1.203/;
+		proxy_pass http://hc2/danawow;
+	}
+
+	location /youtube {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		# proxy_set_header Connection "upgrade";
+		# 대소문자가 의심스러워 바꿔보지만 문제는 아닌듯 합니다
+		proxy_set_header Connection "Upgrade";
+		# proxy_set_header Host 192.168.1.203;
+		proxy_set_header Host $http_host;
+		# proxy_set_header Host $host;
+		# proxy_set_header Host localhost;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		# proxy_pass http://192.168.1.203/;
+		proxy_pass http://hc2/youtube;
+	}
+
+
+
+}

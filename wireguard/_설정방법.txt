@@ -1,0 +1,40 @@
+[📦 WireGuard 서버 복원 매뉴얼]
+
+🖥 대상 시스템: Odroid HC2 (Ubuntu 기반)
+📂 백업 구성: wg 설정, iptables 스크립트, systemd 서비스 등
+
+1. WireGuard 설치
+------------------
+sudo apt update
+sudo apt install wireguard iptables-persistent
+
+2. 설정 파일 복원
+------------------
+sudo cp wg0.conf /etc/wireguard/wg0.conf
+sudo chmod 600 /etc/wireguard/wg0.conf
+
+3. iptables 스크립트 복원
+--------------------------
+sudo cp wg-iptables.sh /usr/local/bin/wg-iptables.sh
+sudo chmod +x /usr/local/bin/wg-iptables.sh
+
+4. systemd 서비스 등록
+-----------------------
+sudo cp wg-iptables.service /etc/systemd/system/wg-iptables.service
+
+# systemd 재로드 및 활성화
+sudo systemctl daemon-reload
+sudo systemctl enable wg-iptables
+sudo systemctl start wg-iptables
+
+5. WireGuard 서비스 등록
+--------------------------
+# 부팅 시 자동 시작
+sudo systemctl enable wg-quick@wg0
+sudo systemctl start wg-quick@wg0
+
+6. 확인
+--------
+# 상태 확인
+sudo wg show
+sudo iptables -S FORWARD

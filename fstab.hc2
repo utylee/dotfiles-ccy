@@ -1,0 +1,13 @@
+#UUID=e139ce78-9841-40fe-8823-96a304a09859 / ext4 errors=remount-ro,noatime 0 1
+LABEL=boot /media/boot vfat defaults 0 1
+/dev/sda1 / ext4 defaults,noatime 0 1
+UUID=e139ce78-9841-40fe-8823-96a304a09859 /media/sdcard ext4 errors=remount-ro,noatime 0 2
+
+//192.168.1.202/clark /home/utylee/media cifs username=utylee,password=sksmsqnwk11,x-systemd.device-timeout=18  0 0
+#//192.168.1.202/clark /home/utylee/media cifs username=utylee,password=sksmsqnwk11,x-systemd.device-timeout=18 0 0
+#//192.168.1.202/clark/4001 /home/utylee/media/4001 cifs username=utylee,password=sksmsqnwk11,iocharset=utf8,file_mode=0777,dir_mode=0777,noauto,x-systemd.automount 0 0
+#//192.168.1.202/clark /mnt/clark cifs username=utylee,password=sksmsqnwk11,iocharset=utf8,file_mode=0777,dir_mode=0777,uid=odroid,gid=odroid,noauto,x-systemd.automount 0 0
+
+
+
+

@@ -1,0 +1,5 @@
+[program:motion-listen-server]
+command=/home/pi/.virtualenvs/misc/bin/python motion-listen.py 
+directory=/home/pi/.virtualenvs/misc/src
+autostart = true
+autorestart = true

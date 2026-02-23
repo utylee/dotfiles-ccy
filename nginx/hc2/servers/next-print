@@ -1,0 +1,146 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+
+location /print/_next/webpack-hmr {
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+
+	proxy_pass http://print/print/_next/webpack-hmr;
+}
+
+# webpack-hmr 과 더불어 이 조합이 그나마 가장 path 규칙 개수를 줄이고
+# 코드가 가장 적은 방법이었습니다. 
+location /print/_next {
+	# alias /home/utylee/.virtualenvs/react/src/next-print-12/.next/static;
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+
+ 	proxy_pass http://print/_next;
+}
+
+# nextjs.config 상에서 assetPrefix과 함께 basePath를 사용해봤는데
+# 도저히 답이 안나와서 public을 차라리 명시적으로 사용하고 nginx가 서빙하는
+# 걸로 결론을 냈습니다	  
+location /print/public {
+	# autoindex on;
+	alias /home/utylee/.virtualenvs/react/src/next-print-12/public;
+}
+
+location /print/favicon.ico {
+	alias /home/utylee/.virtualenvs/react/src/next-print-12/public/favicon.ico;
+}
+
+location /print {
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+
+	# proxy_pass http://hydro/hydro;
+	proxy_pass http://print;
+	# index hydro.html;
+	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+}
+
+
+
+location /print/api/ {
+# location /api/ {
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_redirect off;
+	proxy_buffering off;
+	proxy_read_timeout 1800;
+
+	proxy_pass http://api_print;
+	#alias /home/odroid/temp.html;
+}
+
+
+	# # # location /hydro/_next/static {
+	# # location /_next/static {
+	# # 	alias /home/utylee/.virtualenvs/react/src/next-hydro/.next/statica;
+	# # }
+
+	# location /hydro/_next/static {
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/.next/static;
+	# }
+
+	# # nextjs.config 상에서 assetPrefix과 함께 basePath를 사용해봤는데
+    # # 도저히 답이 안나와서 public을 차라리 명시적으로 사용하고 nginx가 서빙하는
+    # # 걸로 결론을 냈습니다	  
+	# location /hydro/public {
+	# 	# autoindex on;
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/public;
+	# }
+
+	# location /hydro/favicon.ico {
+	# 	alias /home/utylee/.virtualenvs/react/src/next-hydro/public/favicon.ico;
+	# }
+
+	# location /hydro {
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	# proxy_pass http://hydro/hydro;
+	# 	proxy_pass http://hydro;
+	# 	# index hydro.html;
+	# 	# alias /home/utylee/.virtualenvs/react/src/next-hydro/out;
+	# }
+
+	# location /hydro/api/ {
+	# 	proxy_http_version 1.1;
+	# 	proxy_set_header Upgrade $http_upgrade;
+	# 	proxy_set_header Connection "upgrade";
+	# 	proxy_set_header Host $http_host;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_redirect off;
+	# 	proxy_buffering off;
+	# 	proxy_read_timeout 1800;
+
+	# 	proxy_pass http://api_hydro;
+	# }
+
+# }
+
+
+

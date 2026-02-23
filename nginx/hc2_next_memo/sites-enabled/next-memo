@@ -1,0 +1,125 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=STATIC:10m inactive=7d use_temp_path=off;
+
+upstream api {
+	# server localhost:8080 fail_timeout=0;
+
+	server unix:/tmp/api_1.sock fail_timeout=0;
+	# server unix:/tmp/api_2.sock fail_timeout=0;
+	# server unix:/tmp/api_3.sock fail_timeout=0;
+	# server unix:/tmp/api_4.sock fail_timeout=0;
+}
+
+# upstream memo {
+# 	server /home/utylee/.virtualenvs/react/src/next-memo/out;
+
+# }
+server {
+	# server_name utylee.duckdns.org;
+	server_name _;
+	listen 80;
+	#listen 9999;
+	# server_name 192.168.1.205;
+	# server_name 192.168.1.203;
+	#server_name 192.168.1.203:3000;
+	# server_name localhost;
+	#listen 3000;
+
+
+	location /memo {
+		# proxy_http_version 1.1;
+		# proxy_set_header Upgrade $http_upgrade;
+		# proxy_set_header Connection "upgrade";
+		# proxy_set_header Host $http_host;
+		# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		# proxy_redirect off;
+		# proxy_buffering off;
+		# proxy_read_timeout 1800;
+
+		# proxy_pass http://127.0.0.1:3000/;
+		# memo를 assetPrefix로 사용하고 memo/index.html를 사용하고 
+		# 불필요한 원래 index.html를 제거할시 next export시 변경되는 index.html를
+		# 명시해줘야합니다
+		index memo.html;
+		alias /home/utylee/.virtualenvs/react/src/next-memo/out;
+
+		# root을 사용할 경우, 위의로케이션이 마지막에 추가되게됩니다.
+		# root 단어의 의미를 생각해봤을 때, 이해가 가는 부분입니다
+		# root /home/utylee/.virtualenvs/react/src/next-memo/out/;
+	}
+	#사실 next export 를 통해 static 서빙을 하면 굳이 필요없습니다
+	# npm run start로 서빙할 때 서버별로 분리하기 위한 설정입니다
+	# 혹은 start로 서빙할 때 static은 nginx의 장점을 이용하고자 할때나
+	# location /memo/_next/static/ {
+	# 	# autoindex on;
+	# 	# alias /home/utylee/.virtualenvs/react/src/next-memo/out/_next/static;
+	# 	alias /home/utylee/.virtualenvs/react/src/next-memo/.next/static/;
+	# }
+
+	# # location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+	# location ~* \.(?:ico|css|gif|jpe?g|png)$ {
+	# 	expires 30d;
+	# 	add_header Vary Accept-Encoding;
+	# 	access_log off;
+	# }
+
+	location /memo/api/ {
+	# location /api/ {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $http_host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect off;
+		proxy_buffering off;
+		proxy_read_timeout 1800;
+
+		proxy_pass http://api;
+		#alias /home/odroid/temp.html;
+	}
+
+}
+
+#upstream danawow {
+#	server unix:/tmp/wowinfo_1.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_2.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_3.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_4.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_5.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_6.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_7.sock fail_timeout=0;
+#	server unix:/tmp/wowinfo_8.sock fail_timeout=0;
+#
+#	keepalive 100;
+#	#server 127.0.0.1:8081 fail_timeout=0;
+#	#server 127.0.0.1:8082 fail_timeout=0;
+#	#server 127.0.0.1:8083 fail_timeout=0;
+#	#server 127.0.0.1:8084 fail_timeout=0;
+#}
+
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
+
+
