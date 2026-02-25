@@ -12,6 +12,25 @@ echo /usr/local/bin/fish >>/etc/shells
 chsh -s /usr/local/bin/fish
 
 
+******************************************************************
+cachyOS 특징!
+====================================================
+/etc/systemd/logind.conf.d/steam-deckify.conf
+KillUserProcesses=True 로 되어있어서 ssh접속 끊길시 모든 유저 프로세스를 죽입니다
+====================================================
+
+해결법==>
+
+1. sudo vi /etc/systemd/logind.conf.d/steam-deckify.conf
+KillUserProcesses=False 로 변경!!
+
+
+2. sudo systemctl restart systemd-logind
+
+******************************************************************
+
+
+
 * install fisher
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 
