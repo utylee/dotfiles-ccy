@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Turn Off Screen (Delayed)
+Exec=/usr/bin/bash -c "sleep 5; qdbus6 org.kde.kglobalaccel /component/org_kde_powerdevil org.kde.kglobalaccel.Component.invokeShortcut 'Turn Off Screen'"
+X-KDE-autostart-after=plasma-desktop
+X-KDE-StartupNotify=false
+Terminal=false
