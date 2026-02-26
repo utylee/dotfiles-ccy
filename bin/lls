@@ -127,6 +127,15 @@ def build_llama_cmd(llama_bin: Path, model_path: Path, params: dict) -> list:
     if mmproj:
         cmd += ["--mmproj", str(mmproj)]
 
+    # cmd += [str(x) for x in params.get("extra_args", [])]
+
+    # ✅ add extra args from config (model_rules / platform_rules / defaults 어디든)
+    extra = params.get("extra_args", [])
+    if isinstance(extra, str):
+        import shlex
+        extra = shlex.split(extra)
+    cmd += [str(x) for x in extra]
+
     return cmd
 
 

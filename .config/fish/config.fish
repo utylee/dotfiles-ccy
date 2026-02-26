@@ -25,7 +25,7 @@ set -gx EDITOR /usr/bin/vi
 set -gx GHQ_ROOT /home/utylee/.ghq
 
 # for llama-server of wsl2 ssh
-set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models
+set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models/
 set -gx LLS_LLAMA_BIN  /home/utylee/temp/llama.cpp/build-vk/bin/llama-server
 
 set -x LANG ko_KR.UTF-8
@@ -42,10 +42,10 @@ set -l NODEHOME /usr/local/node-v22.22.0-linux-x64
 # set -x PATH $CLANGHOME/bin $PATH
 set -x PATH $HOME/.go/bin /usr/local/go1.17.3/bin $NODEHOME/bin $PATH
 
-fish_add_path /home/utylee/temp/bin  /home/utylee/temp/llama.cpp/build-vk/bin
+fish_add_path /home/utylee/temp/llama.cpp/build-vk/bin /home/utylee/temp/bin 
 #set -gx CC $CLANGHOME/bin/clang
 #set -gx CXX $CLANGHOME/bin/clang++
-#set -gx LD_LIBRARY_PATH $CLANGHOME/lib $LD_LIBRARY_PATH 
+set -gx LD_LIBRARY_PATH /home/utylee/temp/llama.cpp/build-vk/bin $LD_LIBRARY_PATH
 
 # FZF
 # fzf을 직접입력해 파일명 탐색 명내용 

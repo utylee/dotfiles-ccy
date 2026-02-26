@@ -1,40 +1,10 @@
-# ~/.config/fish/completions/lls.fish
+complete -c lls -f
 
-function __lls_models_dir --description "Resolve models dir (env overrides default)"
-    if set -q LLS_MODELS_DIR; and test -n "$LLS_MODELS_DIR"
-        echo "$LLS_MODELS_DIR"
-        return 0
-    end
-
-    # 기본값 (원하면 OS별로 여기서 분기)
-    echo "/home/utylee/temp/llm_models"
-end
-
-function __lls_models_for_host --description "List gguf model basenames for completion"
-    set -l dir (__lls_models_dir)
-
-    # dir 없으면 조용히 빈 결과
-    test -d "$dir"; or return 0
-
-    # fish glob: 파일명에 공백 있어도 안전
-    for f in "$dir"/*.gguf
-        test -f "$f"; or continue
-        echo (path basename -- "$f")
-    end
-end
-
-# lls start <TAB> 에서 모델 목록
-complete -c lls -n '__fish_seen_subcommand_from start' -a "(__lls_models_for_host)" -f -d 'GGUF model'
-
-
-
-# complete -c lls -f
-
-# complete -c lls -n '__fish_use_subcommand' -a "start stop status list info show-profile" -d "lls subcommand"
-# # complete -c lls -n '__fish_use_subcommand' -a start stop status list info show-profile -d "lls subcommand"
-# complete -c lls -n '__fish_seen_subcommand_from start show-profile' -a '(__ll_models_for_host wsl2)' -d "GGUF model"
-# complete -c lls -n '__fish_seen_subcommand_from start stop status info' -l port -d "port"
-# complete -c lls -n '__fish_seen_subcommand_from start' -l detach -s d -d "detach"
+complete -c lls -n '__fish_use_subcommand' -a "start stop status list info show-profile" -d "lls subcommand"
+# complete -c lls -n '__fish_use_subcommand' -a start stop status list info show-profile -d "lls subcommand"
+complete -c lls -n '__fish_seen_subcommand_from start show-profile' -a '(__ll_models_for_host mac)' -d "GGUF model"
+complete -c lls -n '__fish_seen_subcommand_from start stop status info' -l port -d "port"
+complete -c lls -n '__fish_seen_subcommand_from start' -l detach -s d -d "detach"
 
 
 

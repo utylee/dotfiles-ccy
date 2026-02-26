@@ -51,9 +51,10 @@ function fzf-lls-model-widget -d "Pick GGUF model (local/ssh aware, NO eval)"
 			set -l cl (commandline)
 
 			# 이미 lls start로 시작하면 모델만 교체/삽입
-			if string match -qr '^\s*lls\s+start(\s|$)' -- $cl
+			# if string match -qr '^\s*lls\s+start(\s|$)' -- $cl
+			if string match -qr '^\s*lls\s+(start|show-profile)(\s|$)' -- $cl
 				# "lls start <기존모델.gguf>" 형태면 모델만 교체
-				set -l newcl (string replace -r '(^\s*lls\s+start\s+)(\S+\.gguf)?' "\$1$m" -- $cl)
+				set -l newcl (string replace -r '(^\s*lls\s+(start|show-profile)\s+)(\S+\.gguf)?' "\$1$m" -- $cl)
 
 				if test "$newcl" = "$cl"
 					# 모델 토큰이 없던 경우: 뒤에 추가
