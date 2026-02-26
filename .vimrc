@@ -40,7 +40,7 @@ nnoremap ,x :let @+ = expand("%:p").":".line('.')<cr>
 
 set rtp+=~/.fzf
 let g:fzf_history_dir = '~/.fzf/fzf-history'
-let g:fzf_layout = { 'down': '100%' }
+" let g:fzf_layout = { 'down': '100%' }
 let g:fzf_preview_window = []
 "let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=test'
 
