@@ -1,0 +1,63 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "provider": {
+    "llamacpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llw (wsl12)",
+      "options": {
+        "baseURL": "http://llw.utylee.mywire.org/v1/",
+        "apiKey": "not-needed"
+      },
+      "models": {
+        "glm4.7-flash": {
+          "name": "GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        },
+        "qwen3-coder-next": {
+          "name": "Qwen3-Coder-Next-UD-TQ1_0.gguf"
+        }
+      }
+    },
+    "llamacpp-mac": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llm (mac)",
+      "options": {
+        "baseURL": "http://llm.utylee.mywire.org/v1/",
+        "apiKey": "not-needed"
+      },
+      "models": {
+        "qwen3.5-35b-a3b": {
+          "name": "Qwen3.5-35B-A3B-UD-Q4_K_M.gguf"
+        }
+      }
+    },
+    "llamacpp-ccy": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llc (ccy)",
+      "options": {
+        "baseURL": "http://llc.utylee.mywire.org/v1/",
+        "apiKey": "not-needed"
+      },
+      "models": {
+        "qwen3-8b": {
+          "name": "Qwen3-VL-8b.gguf"
+        }
+      }
+    },
+    "llamacpp-llm2": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (llm2)",
+      "options": {
+        "baseURL": "http://llm2.utylee.mywire.org/v1/",
+        "apiKey": "not-needed"
+      },
+      "models": {
+        "gemma-3n": {
+          "name": "gemma-3-4b-it-UD-Q4_K_XL.gguf"
+        }
+      }
+    }
+  },
+
+  "model": "llamacpp/qwen35"
+}
