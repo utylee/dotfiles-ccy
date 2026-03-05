@@ -1,7 +1,8 @@
 if status is-interactive
 	# CURSOR
 	#echo -ne '\eP\e]13;#5F5FAF\a'   # HC1
-	echo -ne '\eP\e]12;#79bda4\a'   # HC1
+	# echo -ne '\eP\e]12;#79bda4\a'   # HC1
+	echo -ne '\eP\e]12;#e87272\a'   # ccy
 	# echo -ne '\eP\e]12;#679e8a\a'   # HC1
 	# echo -ne '\eP\e]12;#53cfcc\a'   # HC1
 	#echo -ne '\eP\e]12;#6d207a\a'	# HC2
@@ -45,7 +46,7 @@ set -x PATH $HOME/.go/bin /usr/local/go1.17.3/bin $NODEHOME/bin $PATH
 fish_add_path /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x64/bin /home/utylee/temp/llama.cpp/build-vk/bin /home/utylee/temp/bin 
 #set -gx CC $CLANGHOME/bin/clang
 #set -gx CXX $CLANGHOME/bin/clang++
-set -gx LD_LIBRARY_PATH /home/utylee/temp/llama.cpp/build-vk/bin $LD_LIBRARY_PATH
+# set -gx LD_LIBRARY_PATH /home/utylee/temp/llama.cpp/build-vk/bin $LD_LIBRARY_PATH
 
 # FZF
 # fzf을 직접입력해 파일명 탐색 명내용 
