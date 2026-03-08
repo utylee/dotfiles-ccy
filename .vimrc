@@ -125,11 +125,24 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap ,e <Plug>(coc-rename)
 nmap ,d <Plug>(coc-codeaction)
 
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+
 " coc-prettier settings
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
  vmap ;f  <Plug>(coc-format-selected)
 " nmap ;f  <Plug>(coc-format-selected)
 nmap ;f  :Prettier<CR>
+nmap ;g  :Format<CR>
+
+nmap ;s  :CocCommand snippets.openSnippetFiles<CR>
 
 
 
