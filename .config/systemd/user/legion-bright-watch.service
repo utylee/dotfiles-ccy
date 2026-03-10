@@ -1,0 +1,12 @@
+[Unit]
+Description=Auto brightness watcher (dim on lock/blank, bright on wake; keep dim if RustDesk connected)
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/temp/bin/legion-bright-watch.sh
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=default.target
