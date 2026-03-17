@@ -1,0 +1,12 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = linux-cachyos*
+Target = limine*
+Target = limine-entry-tool*
+
+[Action]
+Description = Patch limine cmdline (10GB VRAM test)
+When = PostTransaction
+Exec = /bin/sh -c 'grep -q "amdgpu.gttsize=" /boot/limine.conf || sed -i "/^[[:space:]]*cmdline:/ s|$| amdgpu.gttsize=10000 amdgpu.vis_vramlimit=0 amdgpu.vm_fragment_size=9|" /boot/limine.conf'
