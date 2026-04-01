@@ -29,7 +29,7 @@ $python\
 $username\
 $directory\
 $git_branch$git_commit\
-$package$nodejs$rust$python
+$package$nodejs$rust
 $character\
 """
 [character]
