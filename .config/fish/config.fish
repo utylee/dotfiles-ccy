@@ -29,9 +29,46 @@ set -gx GHQ_ROOT /home/utylee/.ghq
 set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models/
 set -gx LLS_LLAMA_BIN  /home/utylee/temp/llama.cpp/build-vk/bin/llama-server
 
+# 1. 아키텍처 속이기 (11.0.0 또는 11.0.3 시도)
+set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
+
+# 2. SDMA 비활성화 (세그폴트 방지의 핵심!)
+set -x HSA_ENABLE_SDMA 0
+# set -x HSA_ENABLE_SDMA 1
+
+# 이것도 세그폴트 원인??
+set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True"
+# set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True,max_split_size_mb:256"
+# set -x PYTORCH_CUDA_ALLOC_CONF expandable_segments:False
+
+## 3. 메모리 파편화 방지 (16GB 램용 최적값)
+#set -x PYTORCH_HIP_ALLOC_CONF "garbage_collection_threshold:0.6,max_split_size_mb:128"
+
+##GPU(=RAM) 최대한 사용 허용
+## set -x GPU_MAX_HEAP_SIZE 100
+#set -x GPU_MAX_HEAP_SIZE 50
+
+## z1 extreme 
+##gfx1103
+#set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
+
+# # PyTorch가 한 번에 가져갈 수 있는 램의 단위를 극단적으로 줄입니다.  64MB 단위로 쪼개서 쓰고, 안 쓰면 즉시 반납하게 합니다.
+# set -x PYTORCH_HIP_ALLOC_CONF "max_split_size_mb:64,garbage_collection_threshold:0.5,expan  dable_segments:True"
+# set -x PYTORCH_CUDA_ALLOC_CONF "max_split_size_mb:64,garbage_collection_threshold:0.5,expa  ndable_segments:True"
+
+# # 리눅스 커널에게 메모리 반환을 강제합니다 (CachyOS 필수)
+# set -x MALLOC_CONF "dirty_decay_ms:0,muzzy_decay_ms:0"
+
+
 set -x LANG ko_KR.UTF-8
 set -x LANGUAGE ko_KR:ko
 set -x LC_ALL ko_KR.UTF-8
+
+# /tmp 용량부족으로 대용량 파일 설치시 문제가 생겨 /mnt/win 을 지정해줍니다
+# set -x TMPDIR $HOME/temp/.pip-tmp
+# set -x PIP_CACHE_DIR $HOME/temp/.pip-cache
+set -x TMPDIR $HOME/.pip-tmp
+set -x PIP_CACHE_DIR $HOME/.pip-cache
 
 # PATH
 #set CLANGHOME /usr/local/clang-14-dev
