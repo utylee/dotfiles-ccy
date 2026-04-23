@@ -37,8 +37,10 @@ set -x HSA_ENABLE_SDMA 0
 # set -x HSA_ENABLE_SDMA 1
 
 # 이것도 세그폴트 원인??
-set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True"
-# set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True,max_split_size_mb:256"
+# set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True"
+# set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True,max_split_size_mb:256,garbage_collection_threshold:0.8"
+set -x PYTORCH_CUDA_ALLOC_CONF "expandable_segments:True,max_split_size_mb:64,garbage_collection_threshold:0.8"
+set -x PYTORCH_HIP_ALLOC_CONF "expandable_segments:True,max_split_size_mb:64,garbage_collection_threshold:0.8"
 # set -x PYTORCH_CUDA_ALLOC_CONF expandable_segments:False
 
 ## 3. 메모리 파편화 방지 (16GB 램용 최적값)
@@ -84,6 +86,7 @@ fish_add_path /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x
 #set -gx CC $CLANGHOME/bin/clang
 #set -gx CXX $CLANGHOME/bin/clang++
 # set -gx LD_LIBRARY_PATH /home/utylee/temp/llama.cpp/build-vk/bin $LD_LIBRARY_PATH
+set -x LD_LIBRARY_PATH /opt/rocm/lib /opt/rocm/lib/migraphx/lib $LD_LIBRARY_PATH
 
 # FZF
 # fzf을 직접입력해 파일명 탐색 명내용 
