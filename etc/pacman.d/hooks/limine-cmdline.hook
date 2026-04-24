@@ -9,4 +9,6 @@ Target = limine-entry-tool*
 [Action]
 Description = Normalize limine cmdline GTT (10GB)
 When = PostTransaction
-Exec = /bin/sh -c 'sed -i -E "/^[[:space:]]*cmdline:/ { s/[[:space:]]+amdgpu\.gttsize=[0-9]+//g; s/[[:space:]]+amdgpu\.vis_vramlimit=[^[:space:]]+//g; s/[[:space:]]+amdgpu\.vm_fragment_size=[0-9]+//g; s|$| ttm.pages_limit=2621440 ttm.page_pool_size=2621440 amdgpu.vis_vramlimit=0 amdgpu.vm_fragment_size=9 amdgpu.cwsr_enable=0|; }" /boot/limine.conf'
+Exec = /bin/sh -c 'sed -i -E "/^[[:space:]]*cmdline:/ { s/[[:space:]]+amdgpu\.gttsize=[0-9]+//g; s/[[:space:]]+amdgpu\.vis_vramlimit=[^[:space:]]+//g; s/[[:space:]]+amdgpu\.vm_fragment_size=[0-9]+//g; s|$|  ttm.pages_limit=1572864 ttm.page_pool_size=1572864 amdgpu.vis_vramlimit=0 amdgpu.vm_fragment_size=9 amdgpu.cwsr_enable=0|; }" /boot/limine.conf'
+# gtt 10gb
+#Exec = /bin/sh -c 'sed -i -E "/^[[:space:]]*cmdline:/ { s/[[:space:]]+amdgpu\.gttsize=[0-9]+//g; s/[[:space:]]+amdgpu\.vis_vramlimit=[^[:space:]]+//g; s/[[:space:]]+amdgpu\.vm_fragment_size=[0-9]+//g; s|$| ttm.pages_limit=2621440 ttm.page_pool_size=2621440 amdgpu.vis_vramlimit=0 amdgpu.vm_fragment_size=9 amdgpu.cwsr_enable=0|; }" /boot/limine.conf'

@@ -30,7 +30,8 @@ set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models/
 set -gx LLS_LLAMA_BIN  /home/utylee/temp/llama.cpp/build-vk/bin/llama-server
 
 # 1. 아키텍처 속이기 (11.0.0 또는 11.0.3 시도)
-set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
+set -x HSA_OVERRIDE_GFX_VERSION 11.0.1
+set -x MALLOC_CHECK_ 0
 
 # 2. SDMA 비활성화 (세그폴트 방지의 핵심!)
 set -x HSA_ENABLE_SDMA 0
