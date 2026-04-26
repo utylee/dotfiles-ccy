@@ -1,18 +1,19 @@
-#UUID=e139ce78-9841-40fe-8823-96a304a09859 / ext4 errors=remount-ro,noatime 0 1
-LABEL=boot /media/boot vfat defaults 0 1
-/dev/sda1 / ext4 defaults,noatime 0 1
-UUID=e139ce78-9841-40fe-8823-96a304a09859 /media/sdcard ext4 errors=remount-ro,noatime 0 2
-UUID=0d2915dd-380b-4f9a-817f-d4e54b76dac3 /home/utylee/media/4001 ext4 defaults,nofail,x-systemd.device-timeout=18 0 0
-# 디스크 체킹을 종종하는데 9초까지도 늘리긴 하던 예제가 있는데 보통 3초로 한다는 것 같습니다
-#       3초로 하니 실패해서 9초로 해보니 성공했습니다
-UUID=367b96f6-4c92-477a-baee-ca0faca99a24 /home/utylee/media/4002 ext4 defaults,nofail,x-systemd.device-timeout=18 0 0
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a device; this may
+# be used with UUID= as a more robust way to name devices that works even if
+# disks are added and removed. See fstab(5).
+#
+# <file system>             <mount point>  <type>  <options>  <dump>  <pass>
+UUID=2ABB-BE96                            /boot          vfat    defaults,umask=0077 0 2
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /              btrfs   subvol=/@,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /home          btrfs   subvol=/@home,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /root          btrfs   subvol=/@root,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /srv           btrfs   subvol=/@srv,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /var/cache     btrfs   subvol=/@cache,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /var/tmp       btrfs   subvol=/@tmp,defaults,noatime,compress=zstd:1 0 0
+UUID=ef39d2f8-5f03-4d15-8044-c796caab9d39 /var/log       btrfs   subvol=/@log,defaults,noatime,compress=zstd:1 0 0
+tmpfs                                     /tmp           tmpfs   defaults,noatime,mode=1777 0 0
 
-# 14.04까지만 있던 옵션입니다. deprecated되었습니다
-#UUID=367b96f6-4c92-477a-baee-ca0faca99a24 /home/odroid/media/4002 ext4 defaults,nobootwait 0 0
-
-
-#//192.168.0.201/clark /home/odroid/media cifs username=utylee,password=sksmsqnwk11 0 0
-#//192.168.0.201/clark /mnt/clark cifs username=utylee,password=sksmsqnwk11,iocharset=utf8,file_mode=0777,dir_mode=0777,uid=odroid,gid=odroid,noauto,x-systemd.automount 0 0
-
-
+UUID=5AF24CFEF24CDFBD  			  /mnt/win	 ntfs-3g	 rw,uid=1000,gid=1000,noatime,nofail  0  0
 
