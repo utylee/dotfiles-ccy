@@ -1,3 +1,3 @@
-function uv
+function uvu
 	curl http://192.168.0.202:9202/vt
 end
