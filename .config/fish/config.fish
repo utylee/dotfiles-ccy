@@ -27,7 +27,7 @@ set -gx GHQ_ROOT /home/utylee/.ghq
 
 # for llama-server of wsl2 ssh
 set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models/
-set -gx LLS_LLAMA_BIN  /home/utylee/temp/llama.cpp/build/bin/llama-server
+set -gx LLS_LLAMA_BIN  /home/utylee/llama.cpp/build/bin/llama-server
 
 # 1. 아키텍처 속이기 (11.0.0 또는 11.0.3 시도)
 set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
@@ -87,7 +87,7 @@ set -l NODEHOME /usr/local/node-v22.22.0-linux-x64
 # set -x PATH $CLANGHOME/bin $PATH
 set -x PATH $HOME/.go/bin /usr/local/go1.17.3/bin $NODEHOME/bin $PATH
 
-fish_add_path /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x64/bin /home/utylee/temp/llama.cpp/build-vk/bin /home/utylee/temp/bin 
+fish_add_path /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x64/bin /home/utylee/llama.cpp/build/bin /home/utylee/temp/bin 
 #set -gx CC $CLANGHOME/bin/clang
 #set -gx CXX $CLANGHOME/bin/clang++
 # set -gx LD_LIBRARY_PATH /home/utylee/temp/llama.cpp/build-vk/bin $LD_LIBRARY_PATH
