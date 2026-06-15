@@ -1,11 +1,25 @@
 [Unit]
 Description=Apply RyzenAdj Power Limits
-After=multi-user.target
+After=graphical.target
 
 [Service]
 Type=oneshot
+ExecStartPre=/usr/bin/sleep 10
+ExecStartPre=/usr/bin/sh -c 'echo performance > /sys/firmware/acpi/platform_profile'
+ExecStartPre=/usr/bin/cpupower frequency-set -g performance
 ExecStart=/usr/bin/ryzenadj --stapm-limit=23000 --fast-limit=23000 --slow-limit=23000
-RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
+
+#[Unit]
+#Description=Apply RyzenAdj Power Limits
+#After=hhd.service
+#
+#[Service]
+#Type=oneshot
+#ExecStartPre=/usr/bin/sleep 10
+#ExecStart=/usr/bin/ryzenadj --stapm-limit=23000 --fast-limit=23000 --slow-limit=23000
+#
+#[Install]
+#WantedBy=graphical.target

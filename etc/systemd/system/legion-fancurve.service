@@ -1,0 +1,11 @@
+[Unit]
+Description=Legion Go Custom Fan Curve
+After=hhd.service
+Requires=hhd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python -c 'from adjustor.core.lenovo import set_fan_curve; set_fan_curve([30,30,30,40,55,65,85,95,100,100])'
+
+[Install]
+WantedBy=multi-user.target

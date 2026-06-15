@@ -30,7 +30,7 @@ set -gx LLS_MODELS_DIR /home/utylee/temp/llm_models/
 set -gx LLS_LLAMA_BIN  /home/utylee/llama.cpp/build/bin/llama-server
 
 # 1. 아키텍처 속이기 (11.0.0 또는 11.0.3 시도)
-set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
+# set -x HSA_OVERRIDE_GFX_VERSION 11.0.0
 # set -x HSA_OVERRIDE_GFX_VERSION 10.3.0
 # set -x MALLOC_CHECK_ 0
 
