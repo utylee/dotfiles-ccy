@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply RyzenAdj Power Limits
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ryzenadj --stapm-limit=23000 --fast-limit=23000 --slow-limit=23000
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
