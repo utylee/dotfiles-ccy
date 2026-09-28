@@ -99,7 +99,7 @@ set -l NODEHOME /usr/local/node-v22.22.0-linux-x64
 # set -x PATH $CLANGHOME/bin $PATH
 set -x PATH $HOME/.go/bin /usr/local/go1.17.3/bin $NODEHOME/bin $PATH
 
-fish_add_path /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x64/bin /home/utylee/temp/bin 
+fish_add_path /home/utylee/codex/codex-rs/target/release /home/utylee/temp/opencode/packages/opencode/dist/opencode-linux-x64/bin /home/utylee/temp/bin 
 fish_add_path -m (dirname $LLS_LLAMA_BIN)
 #set -gx CC $CLANGHOME/bin/clang
 #set -gx CXX $CLANGHOME/bin/clang++
